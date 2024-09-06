@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # First we check out the code
+      - uses: actions/checkout@v4
+
+      # Then we set up python
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      # We install the Numerous SDK, which includes the CLI
+      - run: pip install numerous
+
+      # And finally we deploy our app, setting the NUMEROUS_ACCESS_TOKEN
+      # environment  variable with the GitHub actions secret that contains the
+      # actual value.
+      # We also insert the app slug and organization slug from secrets.
+      - env:
+          NUMEROUS_ACCESS_TOKEN: ${{secrets.NUMEROUS_ACCESS_TOKEN}}
+        run: numerous deploy --app ${{secrets.APP_SLUG}} --organization ${{secrets.ORGANIZATION_SLUG}}
