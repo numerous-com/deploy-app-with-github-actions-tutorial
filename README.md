@@ -54,16 +54,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # First we check out the code
+      # First, we check out the code:
       - uses: actions/checkout@v4
 
-      # Then we set up python
+      # Then we set up python:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
           cache: "pip"
 
-      # We install the Numerous SDK, which includes the CLI
+      # We install the Numerous SDK, which includes the CLI:
       - run: pip install numerous
 
       # And finally we deploy our app, setting the NUMEROUS_ACCESS_TOKEN
